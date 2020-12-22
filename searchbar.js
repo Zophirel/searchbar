@@ -76,7 +76,7 @@ class SearchBar extends HTMLElement{
         let links = book.map(book => book.link);
         let i = 0;
         console.log(links);
-        document.querySelector('search-bar').shadowRoot.querySelector('input').addEventListener('input', (e)=>{ 
+        document.querySelector('search-bar').shadowRoot.querySelector('input').addEventListener('keyup', (e)=>{ 
             let booksArray = [];
             if(e.target.value){
                 booksArray = books.filter(fruit => fruit.toLowerCase().includes(e.target.value));
