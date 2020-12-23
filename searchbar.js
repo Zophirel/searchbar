@@ -64,6 +64,7 @@ template.innerHTML =
 </div
 `;
 
+
 class SearchBar extends HTMLElement{
     constructor(){
         super();
@@ -75,8 +76,10 @@ class SearchBar extends HTMLElement{
         let books = book.map(book => book.title);
         let links = book.map(book => book.link);
         let i = 0;
+        var searchb = $('search-bar')[0].shadowRoot.children[1].children[0];
         console.log(links);
-        document.querySelector('search-bar').shadowRoot.querySelector('input').addEventListener('keyup', (e)=>{ 
+        //console.log(window[ componentClassName ]);
+        searchb.oninput = (e)=>{ 
             let booksArray = [];
             if(e.target.value){
                 booksArray = books.filter(fruit => fruit.toLowerCase().includes(e.target.value));
@@ -84,7 +87,7 @@ class SearchBar extends HTMLElement{
             }
         
             showbooksArray(booksArray);
-        });
+        };
         
         function showbooksArray(booksArray){
             const html = !booksArray.length ? '' : booksArray.join('');
