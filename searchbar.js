@@ -79,47 +79,35 @@ class SearchBar extends HTMLElement{
         var searchb = $('search-bar')[0].shadowRoot.children[1].children[0];
         
         searchb.addEventListener('input', function search(e){ 
+            function createEntry(i){
+                li = ul.appendChild(document.createElement('li'));
+                a = li.appendChild(document.createElement('a'));
+                a.href = `${links[i]}`;
+                a.innerText = `${books[i]}`;
+            }
+
+            function deleteEntry(i){
+                ul.removeChild(ul.children[i]);
+            }
             // Declare variables
-            var filter, ul, booksArray;
+            var filter, li, a, ul, i, txtValue;
             //input = document.getElementById('myInput');
             filter = searchb.value.toUpperCase();
             ul = document.querySelector('search-bar').shadowRoot.children[1].children[1].children[0];
-            
-            if(e.target.value){
-                booksArray = books.filter(fruit => fruit.toLowerCase().includes(e.target.value));
-                booksArray = booksArray.map( (fruit, i) => `<li><a href=${links[i]}>${books[i]}</a></li>` );
-            }
-            showbooksArray(booksArray);
-
-            function showbooksArray(booksArray){
-                if(booksArray == undefined){
-                    document.querySelector('search-bar').shadowRoot.querySelector('ul').innerHTML = "";
-                }
-                else{
-                    const html = !booksArray.length ? '' : booksArray.join('');
-                    document.querySelector('search-bar').shadowRoot.querySelector('ul').innerHTML = html;
-                }
-            }
-            
-            
             //li = ul.appendChild(document.createElement('li'));
             // Loop through all list items, and hide those who don't match the search query
-            /*for (i = 0; i < books.length; i++) {
-                txtValue = books[i];
+            for (i = 0; i < books.length; i++) {
+                txtValue = e.target.value;
                 console.log(txtValue);
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-
-
-                        li = ul.appendChild(document.createElement('li'));
-                        a = li.appendChild(document.createElement('a'));
-                        a.href = `${links[i]}`;
-                        a.innerHTML = `${books[i]}`;
-                        console.log(a);
-                    }
-              else {
-                ul.removeChild(document.getElementsByTagName[i]);
-              }
-            }*/
+                console.log(books[i].includes(txtValue.toUpperCase()) || books[i].includes(txtValue.toLowerCase()));
+                if(books[i].toUpperCase().includes(txtValue.toUpperCase())){
+                    createEntry(i);
+                }
+                else{
+                    console.log(i);
+                    deleteEntry(i);
+                }
+            }
         })
     }
 }
