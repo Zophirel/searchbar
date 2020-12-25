@@ -77,22 +77,50 @@ class SearchBar extends HTMLElement{
         let links = book.map(book => book.link);
         let i = 0;
         var searchb = $('search-bar')[0].shadowRoot.children[1].children[0];
-        console.log(links);
-        //console.log(window[ componentClassName ]);
-        searchb.oninput = (e)=>{ 
-            let booksArray = [];
+        
+        searchb.addEventListener('input', function search(e){ 
+            // Declare variables
+            var filter, ul, booksArray;
+            //input = document.getElementById('myInput');
+            filter = searchb.value.toUpperCase();
+            ul = document.querySelector('search-bar').shadowRoot.children[1].children[1].children[0];
+            
             if(e.target.value){
                 booksArray = books.filter(fruit => fruit.toLowerCase().includes(e.target.value));
                 booksArray = booksArray.map( (fruit, i) => `<li><a href=${links[i]}>${books[i]}</a></li>` );
             }
-        
             showbooksArray(booksArray);
-        };
-        
-        function showbooksArray(booksArray){
-            const html = !booksArray.length ? '' : booksArray.join('');
-            document.querySelector('search-bar').shadowRoot.querySelector('ul').innerHTML = html;
-        }
+
+            function showbooksArray(booksArray){
+                if(booksArray == undefined){
+                    document.querySelector('search-bar').shadowRoot.querySelector('ul').innerHTML = "";
+                }
+                else{
+                    const html = !booksArray.length ? '' : booksArray.join('');
+                    document.querySelector('search-bar').shadowRoot.querySelector('ul').innerHTML = html;
+                }
+            }
+            
+            
+            //li = ul.appendChild(document.createElement('li'));
+            // Loop through all list items, and hide those who don't match the search query
+            /*for (i = 0; i < books.length; i++) {
+                txtValue = books[i];
+                console.log(txtValue);
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+
+
+                        li = ul.appendChild(document.createElement('li'));
+                        a = li.appendChild(document.createElement('a'));
+                        a.href = `${links[i]}`;
+                        a.innerHTML = `${books[i]}`;
+                        console.log(a);
+                    }
+              else {
+                ul.removeChild(document.getElementsByTagName[i]);
+              }
+            }*/
+        })
     }
 }
 window.customElements.define("search-bar", SearchBar);
